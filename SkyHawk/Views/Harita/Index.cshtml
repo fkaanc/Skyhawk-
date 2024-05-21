@@ -1,8 +1,77 @@
 @{
     ViewBag.Title = "Harita";
 }
-<div class="row mt-5">
 
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4030.408640654419!2d35.52292176839857!3d38.7077919141662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x152b128772a0703f%3A0xac1161778fc5a4f3!2sErciyes%20%C3%9Cniversitesi%20M%C3%BChendislik%20Fak%C3%BCltesi!5e1!3m2!1str!2str!4v1715439493159!5m2!1str!2str" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-<h5>/harita sayfası<span class="badge text-bg-secondary"></span></h5>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <style>
+        #map { height: 700px; }
+    </style>
+</head>
+<body>
+<div class="row my-2">
+    <h5>Toplam Tespit Sayısı: 9<span class="badge text-bg-secondary"></span></h5>
+    <div id="map"></div>
 </div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+<script>
+    var map = L.map('map').setView([38.70774,35.52471], 16);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    //Creating an icon
+    var istasyonIcon = L.icon({
+    iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Portatif_YK%C4%B0_Sistemi.png',
+    iconSize:     [68, 75], // size of the icon
+    iconAnchor:   [32, 84], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
+    // Yer kontrol istasyonu marker'ı ve pop-up'ı konum: bilgi işlem dairesi
+    var marker1 = L.marker([38.70809,35.51999], {icon: istasyonIcon}).addTo(map);
+    marker1.bindPopup("<b>Yer İstasyonu</b><br>").openPopup();
+    // Yer kontrol istasyonu circle'ı
+    var circle = L.circle([38.70809,35.51999], {    
+    color: 'black',
+    fillColor: '#008000',
+    fillOpacity: 1  ,
+    radius: 20
+    }).addTo(map);
+
+    // Tespit marker'ı ve pop-up'ı, konum: iktisadi ilimler
+    var marker2 = L.marker([38.70644,35.52241]).addTo(map);
+    marker2.bindPopup().openPopup();
+    // Tespit kırmızı circle'ı
+        var circle = L.circle([38.70644,35.52241], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 25
+    }).addTo(map);
+    
+    // Tespit marker'ı ve pop-up'ı konum: mühendislik fakültesi
+    var marker2 = L.marker([38.70733,35.52446]).addTo(map);
+    marker2.bindPopup("<br><div style='display: flex;'><img src='https://viso.ai/wp-content/uploads/2022/07/smart-city-scene-computer-vision-deep-learning-networks-1060x707.png' style='width:240px;height:auto;'><p style='margin-left: 10px;'><b>Tespit Zamanı:</b><br>21/05/2024 12:20<br><b>Adres: </b>Köşk Mahallesi Ahmet<br> El Biruni Caddesi<br>38.70733,<br>35.52446<br></p></div><br><button onclick='myFunction()'><b>Bildirim Gönder</b></button>").openPopup();
+    // Tespit kırmızı circle'ı
+    var circle = L.circle([38.70733,35.52446], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 25
+    }).addTo(map);
+
+    </script>
+</body>
+</html>
